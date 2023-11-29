@@ -1,15 +1,36 @@
+using DaneshkarShop.Application.Services.Implementation;
+using DaneshkarShop.Application.Services.Interface;
+using DaneshkarShop.Data.AppDbContext;
+using Microsoft.EntityFrameworkCore;
+
 namespace DaneshkarShop.Presentation
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            #region Builder
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            #region Context
+
+            builder.Services.AddDbContext<DaneshkarDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DaneshkarDbContextConnectionString"));
+            });
+
+            #endregion
 
             var app = builder.Build();
+
+            #endregion
+
+            #region App Services
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -39,6 +60,9 @@ namespace DaneshkarShop.Presentation
             });
 
             app.Run();
+
+            #endregion
+
         }
     }
 }

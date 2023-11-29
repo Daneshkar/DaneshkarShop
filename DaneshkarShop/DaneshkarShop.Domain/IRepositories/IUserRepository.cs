@@ -2,6 +2,6 @@
 {
     public interface IUserRepository
     {
-
+        bool IsExistUserByMobile(string mobile);
     }
 }
