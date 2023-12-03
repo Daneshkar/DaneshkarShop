@@ -4,8 +4,6 @@ namespace DaneshkarShop.Domain.DTOs.SiteSode.Account
 {
     public class UserRegisterDTO
     {
-        public string Username { get; set; }
-
         public string Mobile { get; set; }
 
         [DataType(DataType.Password)]
