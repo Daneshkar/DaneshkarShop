@@ -1,4 +1,5 @@
 ﻿using DaneshkarShop.Domain.Entitties.User;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DaneshkarShop.Domain.Entitties.Role;
 
