@@ -64,11 +64,6 @@ public class AccountController : Controller
         {
             var user = _userService.GetUserByMobile(userDTO.Mobile);
 
-            string date = $"{DateTime.Now}";
-
-            var result = $"https://api.kavenegar.com/v1/token/verify/lookup.json?receptor={user.Mobile}&token={DateTime.Now}&template=Wellcoming";
-            var results = client.GetStringAsync(result);
-
             if (user != null)
             {
                 var claims = new List<Claim>
