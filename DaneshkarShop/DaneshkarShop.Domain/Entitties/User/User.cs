@@ -1,4 +1,7 @@
-﻿namespace DaneshkarShop.Domain.Entitties.User;
+﻿using DaneshkarShop.Domain.Entitties.Role;
+using System.Collections.ObjectModel;
+
+namespace DaneshkarShop.Domain.Entitties.User;
 
 public class User
 {
@@ -20,7 +23,7 @@ public class User
 
     #region Navigation properties
 
-
+    public ICollection<UserSelectedRole> UserSelectedRoles { get; set; }
 
     #endregion
 }
