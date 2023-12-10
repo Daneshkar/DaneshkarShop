@@ -38,5 +38,10 @@ namespace DaneshkarShop.Data.Repositories
         {
             return _context.Users.SingleOrDefault(p=> p.IsDelete == false && p.Mobile == mobile);
         }
+
+        public User? GetUserById(int userId)
+        {
+            return _context.Users.Find(userId);
+        }
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using DaneshkarShop.Data.AppDbContext;
 using DaneshkarShop.Domain.Entitties.Role;
+using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
 
 namespace DaneshkarShop.Data.Repositories;

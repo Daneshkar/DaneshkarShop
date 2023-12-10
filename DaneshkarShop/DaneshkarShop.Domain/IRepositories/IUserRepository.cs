@@ -11,5 +11,7 @@ namespace DaneshkarShop.Domain.IRepositories
         void SaveChange();
 
         User? GetUserByMobile(string mobile);
-    }
+
+        User? GetUserById(int userId);
+	}
 }

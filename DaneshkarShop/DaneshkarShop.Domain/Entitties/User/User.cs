@@ -19,6 +19,8 @@ public class User
 
     public bool IsDelete { get; set; }
 
+    public bool SuperAdmin { get; set; }
+
     #endregion
 
     #region Navigation properties
