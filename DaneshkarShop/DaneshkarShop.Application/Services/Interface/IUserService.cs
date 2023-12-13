@@ -1,4 +1,5 @@
-﻿using DaneshkarShop.Domain.DTOs.SiteSode.Account;
+﻿using DaneshkarShop.Domain.DTOs.AdminSide.User;
+using DaneshkarShop.Domain.DTOs.SiteSode.Account;
 using DaneshkarShop.Domain.Entitties.User;
 
 namespace DaneshkarShop.Application.Services.Interface
@@ -22,6 +23,8 @@ namespace DaneshkarShop.Application.Services.Interface
         #region Admin Side Methods 
 
         List<User> ListOfUsers();
+
+        List<ListOfUsersDTO> listOfUsersWithDTO();
 
         #endregion
     }

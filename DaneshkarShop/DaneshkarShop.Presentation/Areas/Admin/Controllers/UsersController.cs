@@ -24,7 +24,7 @@ public class UsersController : AdminBaseController
     {
         #region Get List Of Users
 
-        List<User> users = _userService.ListOfUsers();
+        var users = _userService.listOfUsersWithDTO();
         if (User == null) return NotFound();
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using DaneshkarShop.Data.AppDbContext;
+using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -53,12 +54,34 @@ namespace DaneshkarShop.Data.Repositories
 
         public List<User> ListOfUsers()
         {
+            return _context.Users
+                           .Where(p => !p.IsDelete)
+                           .OrderByDescending(p => p.CreateDate)
+                           .ToList();
+        }
+
+        public List<ListOfUsersDTO> listOfUsersWithDTO()
+        {
             var users = _context.Users
                            .Where(p => !p.IsDelete)
                            .OrderByDescending(p => p.CreateDate)
-                           .AsQueryable();
+                           .ToList();
 
-            return users.ToList();
+            List<ListOfUsersDTO> returnModel = new List<ListOfUsersDTO>();
+
+            foreach (var user in users)
+            {
+                ListOfUsersDTO childModel = new ListOfUsersDTO()
+                {
+                    CreateDate = user.CreateDate,
+                    Mobile = user.Mobile,
+                    Username = user.Username
+                };
+
+                returnModel.Add(childModel);
+            }
+
+            return returnModel;
         }
 
         #endregion

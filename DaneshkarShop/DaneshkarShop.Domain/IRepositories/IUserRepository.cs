@@ -1,4 +1,5 @@
-﻿using DaneshkarShop.Domain.Entitties.User;
+﻿using DaneshkarShop.Domain.DTOs.AdminSide.User;
+using DaneshkarShop.Domain.Entitties.User;
 namespace DaneshkarShop.Domain.IRepositories;
 
 public interface IUserRepository
@@ -20,6 +21,8 @@ public interface IUserRepository
     #region Admin Side Methods 
 
     List<User> ListOfUsers();
+
+    List<ListOfUsersDTO> listOfUsersWithDTO();
 
     #endregion
 }

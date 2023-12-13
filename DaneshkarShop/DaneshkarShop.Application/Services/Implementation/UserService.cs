@@ -1,6 +1,7 @@
 ﻿using DaneshkarShop.Application.Services.Interface;
 using DaneshkarShop.Application.Utilities;
 using DaneshkarShop.Data.AppDbContext;
+using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.DTOs.SiteSode.Account;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
@@ -89,6 +90,11 @@ namespace DaneshkarShop.Application.Services.Implementation
         public List<User> ListOfUsers()
         {
             return _userRepository.ListOfUsers();
+        }
+
+        public List<ListOfUsersDTO> listOfUsersWithDTO()
+        {
+            return _userRepository.listOfUsersWithDTO();
         }
 
         #endregion
