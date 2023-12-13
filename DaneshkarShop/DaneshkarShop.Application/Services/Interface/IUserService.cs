@@ -5,6 +5,8 @@ namespace DaneshkarShop.Application.Services.Interface
 {
     public interface IUserService
     {
+        #region General Methods
+
         bool IsExistUserByMobile(string mobile);
 
         User FillUserEntity(UserRegisterDTO userDTO);
@@ -14,5 +16,13 @@ namespace DaneshkarShop.Application.Services.Interface
         bool RegisterUser(UserRegisterDTO userDTO);
 
         User? GetUserByMobile(string mobile);
+
+        #endregion
+
+        #region Admin Side Methods 
+
+        List<User> ListOfUsers();
+
+        #endregion
     }
 }

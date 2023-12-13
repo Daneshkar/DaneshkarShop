@@ -21,6 +21,8 @@ namespace DaneshkarShop.Application.Services.Implementation
 
         #endregion
 
+        #region General Methods
+
         public bool IsExistUserByMobile(string mobile)
         {
             return _userRepository.IsExistUserByMobile(mobile.Trim());
@@ -28,17 +30,17 @@ namespace DaneshkarShop.Application.Services.Implementation
 
         public User FillUserEntity(UserRegisterDTO userDTO)
         {
-			//Object Mapping
-			User user = new User()
-			{
-				Mobile = userDTO.Mobile.Trim(),
-				Password = PasswordHelper.EncodePasswordMd5(userDTO.Password),
-				Username = userDTO.Mobile,
+            //Object Mapping
+            User user = new User()
+            {
+                Mobile = userDTO.Mobile.Trim(),
+                Password = PasswordHelper.EncodePasswordMd5(userDTO.Password),
+                Username = userDTO.Mobile,
                 CreateDate = DateTime.Now
-			};
+            };
 
             return user;
-		}
+        }
 
         public void AddUser(User user)
         {
@@ -49,19 +51,19 @@ namespace DaneshkarShop.Application.Services.Implementation
         {
             //Is Exist Any User By Mobile
             var isExist = IsExistUserByMobile(userDTO.Mobile);
-            if (isExist == true) 
+            if (isExist == true)
             {
                 return false;
             }
 
             //Fill Entity
-			var user = FillUserEntity(userDTO);
+            var user = FillUserEntity(userDTO);
 
-			//Add User To Data Base 
-			AddUser(user);
+            //Add User To Data Base 
+            AddUser(user);
 
             return true;
-		}
+        }
 
         public bool LoginUser(UserLoginDTO loginDTO)
         {
@@ -79,5 +81,16 @@ namespace DaneshkarShop.Application.Services.Implementation
         {
             return _userRepository.GetUserByMobile(mobile);
         }
+
+        #endregion
+
+        #region Admin Side Methods
+
+        public List<User> ListOfUsers()
+        {
+            return _userRepository.ListOfUsers();
+        }
+
+        #endregion
     }
 }

@@ -1,17 +1,25 @@
 ﻿using DaneshkarShop.Domain.Entitties.User;
+namespace DaneshkarShop.Domain.IRepositories;
 
-namespace DaneshkarShop.Domain.IRepositories
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        bool IsExistUserByMobile(string mobile);
+    #region General Methods
 
-        void AddUser(User user);
+    bool IsExistUserByMobile(string mobile);
 
-        void SaveChange();
+    void AddUser(User user);
 
-        User? GetUserByMobile(string mobile);
+    void SaveChange();
 
-        User? GetUserById(int userId);
-	}
+    User? GetUserByMobile(string mobile);
+
+    User? GetUserById(int userId);
+
+    #endregion
+
+    #region Admin Side Methods 
+
+    List<User> ListOfUsers();
+
+    #endregion
 }

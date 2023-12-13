@@ -1,6 +1,7 @@
 ﻿using DaneshkarShop.Data.AppDbContext;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace DaneshkarShop.Data.Repositories
 {
@@ -12,10 +13,12 @@ namespace DaneshkarShop.Data.Repositories
 
         public UserRepository(DaneshkarDbContext context)
         {
-                _context = context;
+            _context = context;
         }
 
         #endregion
+
+        #region General Methods 
 
         public bool IsExistUserByMobile(string mobile)
         {
@@ -24,24 +27,40 @@ namespace DaneshkarShop.Data.Repositories
 
         public void AddUser(User user)
         {
-			_context.Users.Add(user);
+            _context.Users.Add(user);
 
-			SaveChange();
-		}
+            SaveChange();
+        }
 
-		public void SaveChange()
+        public void SaveChange()
         {
-			_context.SaveChanges();
-		}
+            _context.SaveChanges();
+        }
 
         public User? GetUserByMobile(string mobile)
         {
-            return _context.Users.SingleOrDefault(p=> p.IsDelete == false && p.Mobile == mobile);
+            return _context.Users.SingleOrDefault(p => p.IsDelete == false && p.Mobile == mobile);
         }
 
         public User? GetUserById(int userId)
         {
             return _context.Users.Find(userId);
         }
-	}
+
+        #endregion
+
+        #region Admin Side Methods
+
+        public List<User> ListOfUsers()
+        {
+            var users = _context.Users
+                           .Where(p => !p.IsDelete)
+                           .OrderByDescending(p => p.CreateDate)
+                           .AsQueryable();
+
+            return users.ToList();
+        }
+
+        #endregion
+    }
 }
