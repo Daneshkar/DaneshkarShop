@@ -21,6 +21,8 @@ public class User
 
     public bool SuperAdmin { get; set; }
 
+    public string? UserAvatar { get; set; }
+
     #endregion
 
     #region Navigation properties

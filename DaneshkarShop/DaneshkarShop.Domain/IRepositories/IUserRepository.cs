@@ -16,6 +16,8 @@ public interface IUserRepository
 
     User? GetUserById(int userId);
 
+    void UpdateUser(User user);
+
     #endregion
 
     #region Admin Side Methods 
@@ -23,6 +25,8 @@ public interface IUserRepository
     List<User> ListOfUsers();
 
     List<ListOfUsersDTO> listOfUsersWithDTO();
+
+    List<int> GetListOfUserRolesIdByUserId(int userId);
 
     #endregion
 }

@@ -97,6 +97,64 @@ namespace DaneshkarShop.Application.Services.Implementation
             return _userRepository.listOfUsersWithDTO();
         }
 
+        public EditUserAdminSideDTO? FillEditUserAdminSideDTO(int userId)
+        {
+            #region Get User By Id 
+
+            var user = _userRepository.GetUserById(userId);
+            if (user == null) return null;
+
+            #endregion
+
+            #region Fill DTO
+
+            EditUserAdminSideDTO model = new EditUserAdminSideDTO()
+            {
+                Mobile = user.Mobile,
+                UserId = userId,
+                Username = user.Username,
+                UserOriginalAvatar = user.UserAvatar,
+            };
+
+            //Get User Roles
+            //model.UserSelectedRoleId = _userRepository.GetListOfUserRolesIdByUserId(userId);
+
+            #endregion
+
+            return model;
+        }
+
+        public bool EditUserAdminSide(EditUserAdminSideDTO model)
+        {
+            #region Get User By Id 
+
+            var userOrgin = _userRepository.GetUserById(model.UserId);
+            if (userOrgin == null) return false;
+
+            #endregion
+
+            #region Update Properties
+
+            userOrgin.Mobile = model.Mobile;
+            userOrgin.Username = model.Username;
+
+            //Save New Image
+            userOrgin.UserAvatar = NameGenerator.GenerateUniqCode() + Path.GetExtension(model.UserAvatar.FileName);
+
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/UserAvatar", userOrgin.UserAvatar);
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                model.UserAvatar.CopyTo(stream);
+            }
+
+            #endregion
+
+            _userRepository.UpdateUser(userOrgin);
+            _userRepository.SaveChange();
+
+            return true;
+        }
+
         #endregion
     }
 }

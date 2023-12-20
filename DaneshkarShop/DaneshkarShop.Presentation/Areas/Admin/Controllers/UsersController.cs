@@ -1,7 +1,6 @@
 ﻿using DaneshkarShop.Application.Services.Interface;
-using DaneshkarShop.Domain.Entitties.User;
+using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace DaneshkarShop.Presentation.Areas.Admin.Controllers;
 
@@ -30,6 +29,35 @@ public class UsersController : AdminBaseController
         #endregion
 
         return View(users);
+    }
+
+    #endregion
+
+    #region Edit User
+
+    [HttpGet]
+    public IActionResult EditUser(int userId)
+    {
+        //Get User Information
+        var userInfo = _userService.FillEditUserAdminSideDTO(userId);
+        if (userInfo == null) return NotFound();
+
+        return View(userInfo);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult EditUser(EditUserAdminSideDTO model)
+    {
+        if (ModelState.IsValid) 
+        {
+            var res = _userService.EditUserAdminSide(model);
+            if (res)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        return View(model);
     }
 
     #endregion

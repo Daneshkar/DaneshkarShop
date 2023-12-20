@@ -86,6 +86,7 @@
                                     <thead>
                                         <tr role="row">
 
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="موبایل : activate to sort column ascending">عکس پروفایل </th>
                                             <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام کاربری  : activate to sort column descending">     نام کاربری</th>
 
                                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="موبایل : activate to sort column ascending">موبایل </th>
@@ -100,13 +101,27 @@
                                         {
                                             <tr role="row" class="odd">
                                            
+                                                <td>
+                                                    @if (string.IsNullOrEmpty(item.UserAvatar))
+                                                    {
+                                                        <img style="height: 50px;width: 50px;border-radius: 100% !important;" class="img-responsive rounded" src="/Images/UserAvatar/Defult.jpg" alt="upload_img">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img style="height: 50px;width: 50px;border-radius: 100% !important;" class="img-responsive rounded" src="/Images/UserAvatar/@item.UserAvatar" alt="upload_img">
+                                                    }
+                                                </td>
                                                 <td>@item.Username</td>
                                                 <td>@item.Mobile</td>
                                                 <td>@item.CreateDate.ToShamsi()</td>
 
                                                 <td>
 
-                                                    <a class="btn btn-warning btn-sm waves-effect" asp-action="Edit" asp-area="Admin" asp-controller="Users" asp-route-id="">
+                                                    <a class="btn btn-warning btn-sm waves-effect"
+                                                       asp-action="EditUser" 
+                                                       asp-area="Admin" 
+                                                       asp-controller="Users" 
+                                                       asp-route-UserId="@item.UserId">
                                                         <i class="glyphicon glyphicon-edit"></i>
                                                         ویرایش
                                                     </a>
@@ -120,6 +135,12 @@
                                                         <i class="glyphicon glyphicon-trash"></i>
                                                         حذف
                                                     </a>
+
+                                                    <a class="btn btn-warning btn-sm waves-effect" asp-action="Delete" asp-area="Admin" asp-controller="Users" asp-route-id="">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                        ورود با حساب
+                                                    </a>
+
                                                 </td>
                                             </tr>
                                         }

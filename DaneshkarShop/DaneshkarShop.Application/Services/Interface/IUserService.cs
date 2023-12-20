@@ -26,6 +26,10 @@ namespace DaneshkarShop.Application.Services.Interface
 
         List<ListOfUsersDTO> listOfUsersWithDTO();
 
+        EditUserAdminSideDTO? FillEditUserAdminSideDTO(int userId);
+
+        bool EditUserAdminSide(EditUserAdminSideDTO model);
+
         #endregion
     }
 }

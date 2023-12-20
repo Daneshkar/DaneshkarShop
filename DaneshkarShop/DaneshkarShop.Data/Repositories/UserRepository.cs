@@ -48,6 +48,11 @@ namespace DaneshkarShop.Data.Repositories
             return _context.Users.Find(userId);
         }
 
+        public void UpdateUser(User user) 
+        {
+            _context.Users.Update(user);
+        }
+
         #endregion
 
         #region Admin Side Methods
@@ -62,26 +67,26 @@ namespace DaneshkarShop.Data.Repositories
 
         public List<ListOfUsersDTO> listOfUsersWithDTO()
         {
-            var users = _context.Users
+            return _context.Users
                            .Where(p => !p.IsDelete)
                            .OrderByDescending(p => p.CreateDate)
+                           .Select(p => new ListOfUsersDTO()
+                           {
+                               CreateDate = p.CreateDate,
+                               Mobile = p.Mobile,
+                               Username = p.Username,
+                               UserId = p.UserId,
+                               UserAvatar = p.UserAvatar
+                           })
                            .ToList();
+        }
 
-            List<ListOfUsersDTO> returnModel = new List<ListOfUsersDTO>();
-
-            foreach (var user in users)
-            {
-                ListOfUsersDTO childModel = new ListOfUsersDTO()
-                {
-                    CreateDate = user.CreateDate,
-                    Mobile = user.Mobile,
-                    Username = user.Username
-                };
-
-                returnModel.Add(childModel);
-            }
-
-            return returnModel;
+        public List<int> GetListOfUserRolesIdByUserId(int userId)
+        {
+            return _context.UserSelectedRoles
+                           .Where(p=> p.UserId == userId)
+                           .Select(p=> p.RoleId)
+                           .ToList();
         }
 
         #endregion
