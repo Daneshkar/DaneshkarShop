@@ -26,4 +26,19 @@ public class RoleRepository : IRoleRepository
                             .ToList();
         return roles;
     }
+
+    public List<Role> GetListOfRoles()
+    {
+        return _context.Roles.ToList();
+    }
+
+    public void AddUserSelectedRoleData(UserSelectedRole userSelectedRole)
+    {
+        _context.UserSelectedRoles.Add(userSelectedRole);
+    }
+
+    public void SaveChange()
+    {
+        _context.SaveChanges();
+    }
 }

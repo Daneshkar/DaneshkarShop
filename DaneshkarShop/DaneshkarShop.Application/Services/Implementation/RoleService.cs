@@ -23,7 +23,13 @@ public class RoleService : IRoleService
 
 	#endregion
 
-	public List<Role> GetUserRolesByUserId(int userId)
+	public List<Role> GetListOfRoles()
+	{
+		return _roleRepository.GetListOfRoles();
+	}
+
+
+    public List<Role> GetUserRolesByUserId(int userId)
     {
         return _roleRepository.GetUserRolesByUserId(userId);
     }

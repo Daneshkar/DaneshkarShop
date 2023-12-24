@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DaneshkarShop.Domain.Entitties.Role;
+using Microsoft.AspNetCore.Http;
 
 namespace DaneshkarShop.Domain.DTOs.AdminSide.User;
 
@@ -16,9 +17,9 @@ public class EditUserAdminSideDTO
 
     public string? UserOriginalAvatar { get; set; }
 
-    public IFormFile UserAvatar { get; set; }
+    public IFormFile? UserAvatar { get; set; }
 
-    //public List<int> UserSelectedRoleId { get; set; }
+    public List<int>? CurrentUserRolesId { get; set; }
 
     #endregion
 }

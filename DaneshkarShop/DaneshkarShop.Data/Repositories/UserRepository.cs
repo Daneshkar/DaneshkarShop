@@ -1,5 +1,6 @@
 ﻿using DaneshkarShop.Data.AppDbContext;
 using DaneshkarShop.Domain.DTOs.AdminSide.User;
+using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -87,6 +88,31 @@ namespace DaneshkarShop.Data.Repositories
                            .Where(p=> p.UserId == userId)
                            .Select(p=> p.RoleId)
                            .ToList();
+        }
+
+        public List<UserSelectedRole> GetListOfUserSelectedRolesByUserId(int userId)
+        {
+            return _context.UserSelectedRoles.Where(p=> p.UserId == userId).ToList();
+        }
+
+        public void DeleteRangeOfUserSelectedRoles(List<UserSelectedRole> userSelectedRoles)
+        {
+            _context.UserSelectedRoles.RemoveRange(userSelectedRoles);
+        }
+
+        public bool IsExistAnyUserSelectedRoleByUserIdAndRoleId(int userId , int roleId)
+        {
+            return _context.UserSelectedRoles.Any(p=> p.UserId == userId && p.RoleId == roleId);
+        }
+
+        public UserSelectedRole? GetUserSelectedRoleByUserIdAndRoleId(int userId, int roleId)
+        {
+            return _context.UserSelectedRoles.FirstOrDefault(p => p.UserId == userId && p.RoleId == roleId);
+        }
+
+        public void DeleteUserSelectedRoles(UserSelectedRole userSelectedRoles)
+        {
+            _context.UserSelectedRoles.Remove(userSelectedRoles);
         }
 
         #endregion

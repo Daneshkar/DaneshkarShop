@@ -28,7 +28,7 @@ namespace DaneshkarShop.Application.Services.Interface
 
         EditUserAdminSideDTO? FillEditUserAdminSideDTO(int userId);
 
-        bool EditUserAdminSide(EditUserAdminSideDTO model);
+        bool EditUserAdminSide(EditUserAdminSideDTO model, List<int> SelectedRoles);
 
         #endregion
     }

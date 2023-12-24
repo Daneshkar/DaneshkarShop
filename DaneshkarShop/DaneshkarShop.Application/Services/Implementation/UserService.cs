@@ -3,6 +3,7 @@ using DaneshkarShop.Application.Utilities;
 using DaneshkarShop.Data.AppDbContext;
 using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.DTOs.SiteSode.Account;
+using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,13 @@ namespace DaneshkarShop.Application.Services.Implementation
         #region Ctor
 
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository,
+                           IRoleRepository roleRepository)
         {
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
         }
 
         #endregion
@@ -117,14 +121,14 @@ namespace DaneshkarShop.Application.Services.Implementation
             };
 
             //Get User Roles
-            //model.UserSelectedRoleId = _userRepository.GetListOfUserRolesIdByUserId(userId);
+            model.CurrentUserRolesId = _userRepository.GetListOfUserRolesIdByUserId(userId);
 
             #endregion
 
             return model;
         }
 
-        public bool EditUserAdminSide(EditUserAdminSideDTO model)
+        public bool EditUserAdminSide(EditUserAdminSideDTO model, List<int> SelectedRoles)
         {
             #region Get User By Id 
 
@@ -138,13 +142,59 @@ namespace DaneshkarShop.Application.Services.Implementation
             userOrgin.Mobile = model.Mobile;
             userOrgin.Username = model.Username;
 
-            //Save New Image
-            userOrgin.UserAvatar = NameGenerator.GenerateUniqCode() + Path.GetExtension(model.UserAvatar.FileName);
-
-            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/UserAvatar", userOrgin.UserAvatar);
-            using (var stream = new FileStream(imagePath, FileMode.Create))
+            if (model.UserAvatar != null)
             {
-                model.UserAvatar.CopyTo(stream);
+                //Save New Image
+                userOrgin.UserAvatar = NameGenerator.GenerateUniqCode() + Path.GetExtension(model.UserAvatar.FileName);
+
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/UserAvatar", userOrgin.UserAvatar);
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    model.UserAvatar.CopyTo(stream);
+                }
+            }
+
+            #endregion
+
+            #region Update User Roles
+
+            //List<UserSelectedRole> userSelectedRoles = _userRepository.GetListOfUserSelectedRolesByUserId(model.UserId);
+            //if (userSelectedRoles != null && userSelectedRoles.Any())
+            //{
+            //    _userRepository.DeleteRangeOfUserSelectedRoles(userSelectedRoles);
+            //}
+
+            if (SelectedRoles != null && SelectedRoles.Any())
+            {
+                foreach (var roleId in SelectedRoles)
+                {
+                    if (_userRepository.IsExistAnyUserSelectedRoleByUserIdAndRoleId(model.UserId, roleId) == false)
+                    {
+                        UserSelectedRole userSelectedRole = new UserSelectedRole()
+                        {
+                            RoleId = roleId,
+                            UserId = model.UserId
+                        };
+
+                        _roleRepository.AddUserSelectedRoleData(userSelectedRole);
+                    }
+                    else
+                    {
+                        var userRole = _userRepository.GetUserSelectedRoleByUserIdAndRoleId(model.UserId, roleId);
+                        if (userRole != null)
+                        {
+                            _userRepository.DeleteUserSelectedRoles(userRole);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                List<UserSelectedRole> userSelectedRoles = _userRepository.GetListOfUserSelectedRolesByUserId(model.UserId);
+                if (userSelectedRoles != null && userSelectedRoles.Any())
+                {
+                    _userRepository.DeleteRangeOfUserSelectedRoles(userSelectedRoles);
+                }
             }
 
             #endregion
