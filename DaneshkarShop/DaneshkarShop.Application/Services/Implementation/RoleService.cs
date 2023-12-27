@@ -28,6 +28,10 @@ public class RoleService : IRoleService
 		return _roleRepository.GetListOfRoles();
 	}
 
+    public async Task<List<Role>> GetListOfRolesAsync(CancellationToken cancellation)
+    {
+        return await _roleRepository.GetListOfRolesAsync(cancellation);
+    }
 
     public List<Role> GetUserRolesByUserId(int userId)
     {

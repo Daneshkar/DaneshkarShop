@@ -7,6 +7,7 @@ using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace DaneshkarShop.Application.Services.Implementation
 {
@@ -128,6 +129,33 @@ namespace DaneshkarShop.Application.Services.Implementation
             return model;
         }
 
+        public async Task<EditUserAdminSideDTO?> FillEditUserAdminSideDTOAsync(int userId , CancellationToken cancellationToken)
+        {
+            #region Get User By Id 
+
+            var user = await _userRepository.GetUserByIdAsync(userId , cancellationToken);
+            if (user == null) return null;
+
+            #endregion
+
+            #region Fill DTO
+
+            EditUserAdminSideDTO model = new EditUserAdminSideDTO()
+            {
+                Mobile = user.Mobile,
+                UserId = userId,
+                Username = user.Username,
+                UserOriginalAvatar = user.UserAvatar,
+            };
+
+            //Get User Roles
+            model.CurrentUserRolesId = await _userRepository.GetListOfUserRolesIdByUserIdAsync(userId , cancellationToken);
+
+            #endregion
+
+            return model;
+        }
+
         public bool EditUserAdminSide(EditUserAdminSideDTO model, List<int> SelectedRoles)
         {
             #region Get User By Id 
@@ -201,6 +229,27 @@ namespace DaneshkarShop.Application.Services.Implementation
 
             _userRepository.UpdateUser(userOrgin);
             _userRepository.SaveChange();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteUserAsync(int userId , CancellationToken cancellation) 
+        {
+            #region Get User By Id 
+
+            var user = await _userRepository.GetUserByIdAsync(userId, cancellation);
+            if (user == null || user.IsDelete) return false;
+
+            #endregion
+
+            #region Remove User
+
+            user.IsDelete = true;
+
+            _userRepository.UpdateUser(user);
+            await _userRepository.SaveChangeAsync(cancellation);
+
+            #endregion
 
             return true;
         }

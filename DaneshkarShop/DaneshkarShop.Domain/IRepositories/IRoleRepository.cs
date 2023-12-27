@@ -8,6 +8,8 @@ public interface IRoleRepository
 
     List<Role> GetListOfRoles();
 
+    Task<List<Role>> GetListOfRolesAsync(CancellationToken cancellation);
+
     void AddUserSelectedRoleData(UserSelectedRole userSelectedRole);
 
     void SaveChange();

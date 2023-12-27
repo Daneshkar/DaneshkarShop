@@ -39,6 +39,12 @@ namespace DaneshkarShop.Data.Repositories
             _context.SaveChanges();
         }
 
+        public async Task SaveChangeAsync(CancellationToken cancellation)
+        {
+            await  _context.SaveChangesAsync();
+        }
+
+
         public User? GetUserByMobile(string mobile)
         {
             return _context.Users.SingleOrDefault(p => p.IsDelete == false && p.Mobile == mobile);
@@ -47,6 +53,11 @@ namespace DaneshkarShop.Data.Repositories
         public User? GetUserById(int userId)
         {
             return _context.Users.Find(userId);
+        }
+
+        public async Task<User?> GetUserByIdAsync(int userId , CancellationToken cancellationToken)
+        {
+            return await _context.Users.FindAsync(userId);
         }
 
         public void UpdateUser(User user) 
@@ -88,6 +99,14 @@ namespace DaneshkarShop.Data.Repositories
                            .Where(p=> p.UserId == userId)
                            .Select(p=> p.RoleId)
                            .ToList();
+        }
+
+        public async Task<List<int>> GetListOfUserRolesIdByUserIdAsync(int userId, CancellationToken cancellationToken)
+        {
+            return await _context.UserSelectedRoles
+                                 .Where(p=> p.UserId == userId)
+                                 .Select(p=> p.RoleId)
+                                 .ToListAsync();
         }
 
         public List<UserSelectedRole> GetListOfUserSelectedRolesByUserId(int userId)

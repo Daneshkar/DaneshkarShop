@@ -9,4 +9,6 @@ public interface IRoleService
 	bool IsUserAdmin(int userId);
 
     List<Role> GetListOfRoles();
+
+    Task<List<Role>> GetListOfRolesAsync(CancellationToken cancellation);
 }

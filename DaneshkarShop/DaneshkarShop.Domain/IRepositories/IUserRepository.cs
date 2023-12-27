@@ -13,9 +13,13 @@ public interface IUserRepository
 
     void SaveChange();
 
+    Task SaveChangeAsync(CancellationToken cancellation);
+
     User? GetUserByMobile(string mobile);
 
     User? GetUserById(int userId);
+
+    Task<User?> GetUserByIdAsync(int userId , CancellationToken cancellationToken);
 
     void UpdateUser(User user);
 
@@ -28,6 +32,8 @@ public interface IUserRepository
     List<ListOfUsersDTO> listOfUsersWithDTO();
 
     List<int> GetListOfUserRolesIdByUserId(int userId);
+
+    Task<List<int>> GetListOfUserRolesIdByUserIdAsync(int userId, CancellationToken cancellationToken);
 
     List<UserSelectedRole> GetListOfUserSelectedRolesByUserId(int userId);
 

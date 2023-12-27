@@ -22,6 +22,14 @@ namespace DaneshkarShop.Application.Services.Interface
 
         #region Admin Side Methods 
 
+        #region Async Methods
+
+        Task<EditUserAdminSideDTO?> FillEditUserAdminSideDTOAsync(int userId, CancellationToken cancellationToken);
+
+        #endregion
+
+        #region Sync Methods
+
         List<User> ListOfUsers();
 
         List<ListOfUsersDTO> listOfUsersWithDTO();
@@ -29,6 +37,10 @@ namespace DaneshkarShop.Application.Services.Interface
         EditUserAdminSideDTO? FillEditUserAdminSideDTO(int userId);
 
         bool EditUserAdminSide(EditUserAdminSideDTO model, List<int> SelectedRoles);
+
+        Task<bool> DeleteUserAsync(int userId, CancellationToken cancellation);
+
+        #endregion
 
         #endregion
     }

@@ -51,6 +51,38 @@
             });
         });
     </script>
+
+    <script>
+        function DeleteAjax(removeElementId, url) {
+            Swal.fire({
+                title: 'هشدار ',
+                text: "آیا از انجام عملیات مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله',
+                cancelButtonText: 'خیر',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.get(url).then(res => {
+                        if (removeElementId !== null &&
+                            removeElementId !== undefined &&
+                            removeElementId !== '' &&
+                            res.status === "Success") {
+                            console.log("Success");
+                            $('[remove-ajax-item=' + removeElementId + ']').fadeOut(1000);
+                        } else if (removeElementId !== null &&
+                            removeElementId !== undefined &&
+                            removeElementId !== '' &&
+                            res.status === "Danger") {
+                            console.log("Error");
+                        }
+                    });
+                }
+            });
+        }
+    </script>
 }
 
 <div class="content-wrapper" style="min-height: 805px;">
@@ -99,7 +131,7 @@
 
                                         @foreach (var item in Model)
                                         {
-                                            <tr role="row" class="odd">
+                                            <tr role="row" class="odd" remove-ajax-item="@item.UserId">
                                            
                                                 <td>
                                                     @if (string.IsNullOrEmpty(item.UserAvatar))
@@ -126,15 +158,19 @@
                                                         ویرایش
                                                     </a>
 
-                                                    <a class="btn btn-info btn-sm waves-effect" asp-action="Details" asp-area="Admin" asp-controller="Users" asp-route-id="">
+                                                    <a class="btn btn-info btn-sm waves-effect" 
+                                                       asp-action="DetailUser"
+                                                       asp-area="Admin" 
+                                                       asp-controller="Users" 
+                                                       asp-route-UserId="@item.UserId">
                                                         <i class="glyphicon glyphicon-edit"></i>
                                                         اطلاعات
                                                     </a>
 
-                                                    <a class="btn btn-danger btn-sm waves-effect" asp-action="Delete" asp-area="Admin" asp-controller="Users" asp-route-id="">
+                                                    <button onclick="DeleteAjax(@item.UserId, '@Url.Action("DeleteUser", "Users", new {area = "Admin", userId = item.UserId})')" class="btn btn-danger btn-sm waves-effect">
                                                         <i class="glyphicon glyphicon-trash"></i>
                                                         حذف
-                                                    </a>
+                                                    </button>
 
                                                     <a class="btn btn-warning btn-sm waves-effect" asp-action="Delete" asp-area="Admin" asp-controller="Users" asp-route-id="">
                                                         <i class="glyphicon glyphicon-trash"></i>

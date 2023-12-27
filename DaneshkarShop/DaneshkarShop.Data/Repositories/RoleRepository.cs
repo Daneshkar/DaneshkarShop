@@ -2,6 +2,7 @@
 using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace DaneshkarShop.Data.Repositories;
 
@@ -30,6 +31,11 @@ public class RoleRepository : IRoleRepository
     public List<Role> GetListOfRoles()
     {
         return _context.Roles.ToList();
+    }
+
+    public async Task<List<Role>> GetListOfRolesAsync(CancellationToken cancellation)
+    {
+        return await _context.Roles.ToListAsync();
     }
 
     public void AddUserSelectedRoleData(UserSelectedRole userSelectedRole)
