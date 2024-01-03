@@ -9,16 +9,19 @@ public class HomeController : AdminBaseController
     #region Ctor
 
     private readonly IRoleService _roleService;
+    private readonly IUserService _userService;
 
-    public HomeController(IRoleService roleService)
+    public HomeController(IRoleService roleService, 
+                          IUserService userService )
     {
-            _roleService = roleService;
+        _roleService = roleService;
+        _userService = userService;
     }
 
-	#endregion
+    #endregion
 
-	public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellation)
     {
-        return View();
+        return View(await _userService.FillLandingPageModelDTO(cancellation));
     }
 }

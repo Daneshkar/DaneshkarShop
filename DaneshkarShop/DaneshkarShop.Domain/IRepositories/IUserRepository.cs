@@ -1,4 +1,5 @@
-﻿using DaneshkarShop.Domain.DTOs.AdminSide.User;
+﻿using DaneshkarShop.Domain.DTOs.AdminSide.LandingPage;
+using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 namespace DaneshkarShop.Domain.IRepositories;
@@ -26,6 +27,8 @@ public interface IUserRepository
     #endregion
 
     #region Admin Side Methods 
+
+    Task<LandingPageModelDTO?> FillLandingPageModelDTO(CancellationToken cancellation);
 
     List<User> ListOfUsers();
 

@@ -1,4 +1,5 @@
 ﻿using DaneshkarShop.Data.AppDbContext;
+using DaneshkarShop.Domain.DTOs.AdminSide.LandingPage;
 using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
@@ -68,6 +69,18 @@ namespace DaneshkarShop.Data.Repositories
         #endregion
 
         #region Admin Side Methods
+
+        public async Task<LandingPageModelDTO?> FillLandingPageModelDTO(CancellationToken cancellation)
+        {
+            return await _context.Users
+                                 .AsNoTracking()
+                                 .Where(p => !p.IsDelete)
+                                 .Select(p => new LandingPageModelDTO()
+                                 {
+                                     CountOfActiveUsers = _context.Users.Count(p => !p.IsDelete)
+                                 })
+                                 .FirstOrDefaultAsync();
+        }
 
         public List<User> ListOfUsers()
         {

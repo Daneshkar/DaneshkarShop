@@ -1,4 +1,5 @@
-﻿using DaneshkarShop.Domain.DTOs.AdminSide.User;
+﻿using DaneshkarShop.Domain.DTOs.AdminSide.LandingPage;
+using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.DTOs.SiteSode.Account;
 using DaneshkarShop.Domain.Entitties.User;
 
@@ -23,6 +24,8 @@ namespace DaneshkarShop.Application.Services.Interface
         #region Admin Side Methods 
 
         #region Async Methods
+
+        Task<LandingPageModelDTO?> FillLandingPageModelDTO(CancellationToken cancellation);
 
         Task<EditUserAdminSideDTO?> FillEditUserAdminSideDTOAsync(int userId, CancellationToken cancellationToken);
 
