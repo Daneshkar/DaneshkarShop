@@ -1,10 +1,6 @@
 ﻿using DaneshkarShop.Application.Services.Interface;
 using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.IRepositories;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Security;
-
 namespace DaneshkarShop.Application.Services.Implementation;
 
 public class RoleService : IRoleService

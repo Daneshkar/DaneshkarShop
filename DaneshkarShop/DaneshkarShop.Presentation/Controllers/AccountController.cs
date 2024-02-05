@@ -52,13 +52,20 @@ public class AccountController : Controller
     #region Login
 
     [HttpGet]
-    public IActionResult Login()
+    public IActionResult Login(string ReturnUrl="")
     {
-        return View();
+        UserLoginDTO returnModel = new UserLoginDTO();
+
+        if (!string.IsNullOrEmpty(ReturnUrl))
+        {
+            returnModel.ReturnUrl = ReturnUrl;
+        }
+
+        return View(returnModel);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(UserLoginDTO userDTO)
+    public async Task<IActionResult> Login(UserLoginDTO userDTO , string? amirName)
     {
         if (ModelState.IsValid)
         {
@@ -81,6 +88,11 @@ public class AccountController : Controller
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProps);
 
+                if (!string.IsNullOrEmpty(amirName))
+                {
+                    return Redirect(amirName);
+                }
+
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -92,6 +104,13 @@ public class AccountController : Controller
     #endregion
 
     #region Log Out
+
+    [HttpGet("Logout")]
+    public async Task<IActionResult> LogOut()
+    {
+        await HttpContext.SignOutAsync();
+        return RedirectToAction("Index" , "Home");
+    }
 
     #endregion
 }

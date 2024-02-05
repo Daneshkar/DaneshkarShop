@@ -1,14 +1,11 @@
 ﻿using DaneshkarShop.Application.Services.Interface;
 using DaneshkarShop.Application.Utilities;
-using DaneshkarShop.Data.AppDbContext;
 using DaneshkarShop.Domain.DTOs.AdminSide.LandingPage;
 using DaneshkarShop.Domain.DTOs.AdminSide.User;
 using DaneshkarShop.Domain.DTOs.SiteSode.Account;
 using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 using DaneshkarShop.Domain.IRepositories;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace DaneshkarShop.Application.Services.Implementation
 {

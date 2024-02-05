@@ -10,5 +10,7 @@ public class UserLoginDTO
 
     public string Password { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     #endregion
 }
