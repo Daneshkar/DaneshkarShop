@@ -6,4 +6,10 @@ namespace DaneshkarShop.Application.Services.Interface;
 public interface IContactUsService
 {
     Task AddContactUsMessage(ContactUsDTO contactUs);
+
+    Task<List<ContactUs>> GetListOfContactUs();
+
+    Task<ContactUs?> GetContactUsById(int id);
+
+    Task<bool> DeleteContactUs(int id);
 }

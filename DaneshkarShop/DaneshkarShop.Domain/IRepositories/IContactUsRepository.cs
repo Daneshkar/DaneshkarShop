@@ -7,4 +7,10 @@ public interface IContactUsRepository
     Task SaveChangeAsync();
 
     Task AddContactUsToTheDataBase(ContactUs contactUs);
+
+    Task<List<ContactUs>> GetListOfContactUs();
+
+    Task<ContactUs?> GetContactUsById(int id);
+
+    void DeleteContactUs(ContactUs contactUs);
 }

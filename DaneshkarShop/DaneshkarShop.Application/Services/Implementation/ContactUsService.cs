@@ -32,4 +32,28 @@ public class ContactUsService : IContactUsService
         await _contactUsRepository.SaveChangeAsync();
     }
 
+    public async Task<List<ContactUs>> GetListOfContactUs()
+    {
+        return await _contactUsRepository.GetListOfContactUs();
+    }
+
+    public async Task<ContactUs?> GetContactUsById(int id)
+    {
+        return await _contactUsRepository.GetContactUsById(id);
+    }
+
+    public async Task<bool> DeleteContactUs(int id)
+    {
+        //Get Contact Us By Id 
+        var contactUs = await GetContactUsById(id);
+        if (contactUs == null) return false;
+
+        //Remove Contact Us 
+        _contactUsRepository.DeleteContactUs(contactUs);
+
+        //Save Change Method 
+        await _contactUsRepository.SaveChangeAsync();
+
+        return true;
+    }
 }
