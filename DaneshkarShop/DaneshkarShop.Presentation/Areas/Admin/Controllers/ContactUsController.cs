@@ -30,9 +30,21 @@ public class ContactUsController : AdminBaseController
     #region Contact Us Detail
 
     [HttpGet]
-    public async Task<IActionResult> ContactUsDetail(int id)
+    public async Task<IActionResult> ContactUsDetail(int id,
+                                                     CancellationToken cancellation = default)
     {
-        return View(await _contactUsService.GetContactUsById(id));
+        var contactUs = await _contactUsService.GetContactUsById(id);
+
+        #region Change Message State 
+
+        if (contactUs != null)
+        {
+            await _contactUsService.ChangeMessageState(contactUs, cancellation);
+        }
+
+        #endregion
+
+        return View(contactUs);
     }
 
     #endregion

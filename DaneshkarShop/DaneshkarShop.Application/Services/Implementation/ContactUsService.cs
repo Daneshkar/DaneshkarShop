@@ -25,7 +25,8 @@ public class ContactUsService : IContactUsService
         {
             Message = contactUs.Message,
             Mobile = contactUs.Mobile,
-            Username = contactUs.Username
+            Username = contactUs.Username,
+            CreateDate = DateTime.Now,
         };
 
         await _contactUsRepository.AddContactUsToTheDataBase(model);
@@ -55,5 +56,32 @@ public class ContactUsService : IContactUsService
         await _contactUsRepository.SaveChangeAsync();
 
         return true;
+    }
+
+    public async Task ChangeMessageState(int messageId ,     
+                                         CancellationToken cancellationToken)
+    {
+        //Get Message By Id 
+        var contactUs = await _contactUsRepository.GetContactUsById(messageId);
+
+        if (contactUs != null && !contactUs.IsSeen)
+        {
+            contactUs.IsSeen = true;
+
+            _contactUsRepository.Update(contactUs);
+            await _contactUsRepository.SaveChangeAsync();
+        }
+    }
+
+    public async Task ChangeMessageState(ContactUs contactUs,
+                                       CancellationToken cancellationToken)
+    {
+        if (contactUs != null && !contactUs.IsSeen)
+        {
+            contactUs.IsSeen = true;
+
+            _contactUsRepository.Update(contactUs);
+            await _contactUsRepository.SaveChangeAsync();
+        }
     }
 }

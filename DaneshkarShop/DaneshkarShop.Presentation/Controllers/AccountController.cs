@@ -113,4 +113,18 @@ public class AccountController : Controller
     }
 
     #endregion
+
+    #region CheckUserRoleForLogin
+
+    public IActionResult ManageUserForLogin()
+    {
+        if (!User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction(nameof(Login));
+        }
+
+        return RedirectToAction(nameof(LogOut));
+    }
+
+    #endregion
 }

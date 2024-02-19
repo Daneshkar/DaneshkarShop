@@ -12,4 +12,10 @@ public interface IContactUsService
     Task<ContactUs?> GetContactUsById(int id);
 
     Task<bool> DeleteContactUs(int id);
+
+    Task ChangeMessageState(int messageId,
+                                         CancellationToken cancellationToken);
+
+    Task ChangeMessageState(ContactUs contactUs,
+                                       CancellationToken cancellationToken);
 }

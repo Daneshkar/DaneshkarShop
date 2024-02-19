@@ -16,5 +16,9 @@ public class ContactUs
 
     public string Message { get; set; }
 
+    public DateTime CreateDate { get; set; } = DateTime.Now;
+
+    public bool IsSeen { get; set; } 
+
     #endregion
 }

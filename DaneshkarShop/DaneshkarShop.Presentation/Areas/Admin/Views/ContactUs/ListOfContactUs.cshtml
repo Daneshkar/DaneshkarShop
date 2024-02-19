@@ -123,6 +123,7 @@
 
                                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="موبایل : activate to sort column ascending">موبایل </th>
                                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="موبایل : activate to sort column ascending">تاریخ  </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="موبایل : activate to sort column ascending">وضعیت  </th>
 
                                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=" activate to sort column ascending"></th>
                                         </tr>
@@ -138,7 +139,21 @@
                                                 </td>
                                                 <td>@item.Username</td>
                                                 <td>@item.Mobile</td>
-                                                <td>تاریخ</td>
+                                                <td>@item.CreateDate.ToShamsi()</td>
+                                                <td>
+                                                    @if (item.IsSeen)
+                                                    {
+                                                        <p class="badge badge-success">
+                                                            دیده شده
+                                                        </p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="badge badge-danger">
+                                                            دیده نشده
+                                                        </p>
+                                                    }                                                    
+                                                </td>
 
                                                 <td>
                                                     <a class="btn btn-info btn-sm waves-effect"
