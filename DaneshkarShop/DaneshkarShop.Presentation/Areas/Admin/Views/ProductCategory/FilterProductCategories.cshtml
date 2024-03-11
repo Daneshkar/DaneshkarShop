@@ -1,0 +1,265 @@
+﻿@model IEnumerable<DaneshkarShop.Domain.Entitties.Product.ProductCategory>
+
+@{
+    ViewData["Title"] = "دسته بندی ها ";
+}
+
+
+@section Styls
+{
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/Admin_Panel/plugins/datatables/dataTables.bootstrap4.css">
+
+}
+
+@section Scripts
+{
+    <script>
+        function DeleteAjax(removeElementId, url) {
+            Swal.fire({
+                title: 'هشدار ',
+                text: "آیا از انجام عملیات مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله',
+                cancelButtonText: 'خیر',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.get(url).then(res => {
+                        if (removeElementId !== null &&
+                            removeElementId !== undefined &&
+                            removeElementId !== '' &&
+                            res.status === "Success") {
+                            console.log("Success");
+                            $('[remove-ajax-item=' + removeElementId + ']').fadeOut(1000);
+                        } else if (removeElementId !== null &&
+                            removeElementId !== undefined &&
+                            removeElementId !== '' &&
+                            res.status === "Danger") {
+                            console.log("Error");
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}
+
+
+<div class="content-wrapper" style="min-height: 805px;">
+    @if (ViewBag.Create == true)
+    {
+
+
+
+        <div class="col-md-12">
+            <div class="card bg-success-gradient">
+                <div class="card-header">
+                    <h3 class="card-title"> ثبت با موفقیت </h3>
+
+                    <div class="card-tools">
+                        <button type="button" id="CreateBtn" class="btn btn-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    ثبت گروه جدید  با موفقیت انجام شده است
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <script>
+            // Your delay in milliseconds
+            var delay = 5000;
+            setTimeout(function () { document.getElementById("CreateBtn").click(); }, delay);
+        </script>
+    }
+    @if (ViewBag.Edit == true)
+    {
+        <div class="col-md-12">
+            <div class="card bg-primary-gradient">
+                <div class="card-header">
+                    <h3 class="card-title">ویرایش موفقیت آمیز  </h3>
+
+                    <div class="card-tools">
+                        <button type="button" id="EditBtn" class="btn btn-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    ویرایش گروه  با موفقیت ثبت گردید
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <script>
+            // Your delay in milliseconds
+            var delay = 5000;
+            setTimeout(function () { document.getElementById("EditBtn").click(); }, delay);
+        </script>
+    }
+    @if (ViewBag.Delete == true)
+    {
+        <div class="col-md-12">
+            <div class="card bg-danger-gradient">
+                <div class="card-header">
+                    <h3 class="card-title">حذف موفق </h3>
+
+                    <div class="card-tools">
+                        <button type="button" id="DeleteBtn" class="btn btn-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    حذف گروه  با موفقیت انجام گردید
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <script>
+            // Your delay in milliseconds
+            var delay = 5000;
+            setTimeout(function () { document.getElementById("DeleteBtn").click(); }, delay);
+        </script>
+    }
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>گروه های محصولات  </h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="/Admin">خانه</a></li>
+                        <li class="breadcrumb-item active">گروه محصولات </li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+
+
+                <div class="card ">
+                    <div class="card-header">
+                        <h3 class="card-title">لیست دسته بند ی های محصولات  </h3>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <a href="/Admin/ProductCategory/CreateProductCategory" class="btn btn-block btn-primary btn-sm waves-effect">افزودن گروه جدید  </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="col-sm-12">
+                                <table id="example1" class="table table-bordered table-striped dataTable" role="grid">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 82px;" aria-label="کد: activate to sort column ascending">کد </th>
+
+                                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 400.583px;" aria-sort="ascending" aria-label="سرگروه   : activate to sort column descending">
+                                                سرگروه
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 300.5px;" aria-label="زیرگروه  : activate to sort column ascending">زیرگروه </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 300.5px;"> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model.Where(p => p.ParentId == null))
+                                        {
+
+                                            <tr role="row" class="odd" remove-ajax-item="@item.Id">
+                                                <td class="sorting_1">
+
+                                                    @item.Id
+                                                </td>
+                                                <td>
+                                                    @item.CategoryTitle
+                                                </td>
+                                                <td class="card-body">
+                                                    @if (Model.Any(p => p.ParentId == item.Id))
+                                                    {
+                                                        <ul class="mr-4">
+                                                            @foreach (var subGroup in Model.Where(p => p.ParentId == item.Id))
+                                                            {
+                                                                <li remove-ajax-item="@subGroup.Id">
+                                                                    @subGroup.CategoryTitle
+
+
+
+                                                                    <a class=" text-info" style="cursor:pointer;" href="@Url.Action("Edit", new { id = subGroup.Id })">
+                                                                        <i class="fa fa-edit" title="ویرایش"></i>
+
+                                                                    </a>
+
+
+                                                                    <button onclick="DeleteAjax(@subGroup.Id, '@Url.Action("ProductCategory", "DeleteCategory", new {area = "Admin", categoryId = subGroup.Id})')" class="btn btn-danger btn-sm waves-effect">
+                                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                                        حذف
+                                                                    </button>
+
+                                                                </li>
+                                                                <hr />
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </td>
+
+
+
+                                                <td>
+                                                    <a class="btn btn-success btn-sm waves-effect" href="@Url.Action("CreateProductCategory", new { parentId = item.Id })">
+                                                        <i class="glyphicon glyphicon-edit"></i>
+                                                        افزودن
+                                                    </a>
+                                                    <a class="btn btn-info btn-sm waves-effect" href="@Url.Action("Edit", new { id = item.Id })">
+                                                        <i class="glyphicon glyphicon-edit"></i>
+                                                        ویرایش
+                                                    </a>
+
+                                                    <button onclick="DeleteAjax(@item.Id, '@Url.Action("DeleteCategory", "ProductCategory", new {area = "Admin", categoryId = item.Id})')" class="btn btn-danger btn-sm waves-effect">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                        حذف
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section> <!-- /.content -->
+</div>
+

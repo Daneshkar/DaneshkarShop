@@ -1,4 +1,5 @@
 ﻿using DaneshkarShop.Domain.Entitties.ContactUs;
+using DaneshkarShop.Domain.Entitties.Product;
 using DaneshkarShop.Domain.Entitties.Role;
 using DaneshkarShop.Domain.Entitties.User;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,12 @@ public class DaneshkarDbContext : DbContext
     #region Contact Us
 
     public DbSet<ContactUs> ContactUs { get; set; }
+
+    #endregion
+
+    #region Product 
+
+    public DbSet<ProductCategory> ProductCategories { get; set; }
 
     #endregion
 
