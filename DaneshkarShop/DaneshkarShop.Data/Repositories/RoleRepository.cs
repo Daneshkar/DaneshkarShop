@@ -47,4 +47,45 @@ public class RoleRepository : IRoleRepository
     {
         _context.SaveChanges();
     }
+
+    public async Task<List<Role>> Get_ListOfRoles(CancellationToken cancellationToken)
+    {
+        return await _context.Roles
+                             .Where(p => !p.IsDelete)
+                             .ToListAsync();
+    }
+
+    public async Task<bool> IsExist_AnyRole_ByRoleUniqueName(string roleUniqueName , CancellationToken token)
+    {
+        return await _context.Roles
+                             .AnyAsync(p=> !p.IsDelete && 
+                                       p.RoleUniqueName == roleUniqueName);
+    }
+
+    public async Task Add_Role(Role role , CancellationToken cancellation)
+    {
+        await _context.Roles.AddAsync(role);
+    }
+
+    public async Task<Role?> Get_Role_ById(int roleId , CancellationToken cancellation)
+    {
+        return await _context.Roles
+                             .FirstOrDefaultAsync(p=> !p.IsDelete && 
+                                                  p.Id == roleId);
+    }
+
+    public async Task<bool> IsExist_AnyRole_ByRoleUniqueName(int roleId , 
+                                                             string roleTitle , 
+                                                             CancellationToken cancellationToken)
+    {
+        return await _context.Roles
+                             .AnyAsync(p => !p.IsDelete &&
+                                            p.Id != roleId &&
+                                            p.RoleUniqueName == roleTitle);
+    }
+
+    public void Update_Role(Role role)
+    {
+        _context.Roles.Update(role);
+    }
 }

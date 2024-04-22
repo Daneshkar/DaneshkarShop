@@ -77,7 +77,6 @@ public class UsersController : AdminBaseController
 
     #endregion
 
-
     #region Detail
 
     public async Task<IActionResult> DetailUser(int userId , CancellationToken cancellation = default)
