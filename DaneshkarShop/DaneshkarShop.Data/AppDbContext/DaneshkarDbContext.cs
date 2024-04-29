@@ -1,6 +1,7 @@
 ﻿using DaneshkarShop.Domain.Entitties.ContactUs;
 using DaneshkarShop.Domain.Entitties.Product;
 using DaneshkarShop.Domain.Entitties.Role;
+using DaneshkarShop.Domain.Entitties.Slider;
 using DaneshkarShop.Domain.Entitties.User;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -43,6 +44,12 @@ public class DaneshkarDbContext : DbContext
     #region Product 
 
     public DbSet<ProductCategory> ProductCategories { get; set; }
+
+    #endregion
+
+    #region Slider
+
+    public DbSet<Slider> Sliders { get; set; }
 
     #endregion
 
